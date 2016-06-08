@@ -1,0 +1,136 @@
+<html>
+<head>
+<title></title>
+
+<script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+<script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
+<link rel="stylesheet" type="text/css" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css">
+
+
+<style>
+body,input{
+font-family:Calibri,Arial;
+margin:0px}
+
+.demo{
+width:400px;
+height:400px;
+padding:2px;
+background-color:#f81;
+}
+</style>
+
+
+<script>
+var myFrame; 
+var FrameDims = [];
+var MinDim = { height : 50, width : 100}
+var MaxDim = { height : 2000, width : 2000}
+
+$(document).ready(function(){
+	console.log("dom loaded");
+	myFrame = document.getElementById('myFrame');
+	initFrameDims();
+	
+});
+
+function initFrameDims (){
+	FrameDims = [];
+	var f1 = {
+		 height : parseInt(window.getComputedStyle(myFrame,null).getPropertyValue("height"))
+		, width: parseInt(window.getComputedStyle(myFrame,null).getPropertyValue("width")) 
+	}
+	FrameDims.push(f1);
+}
+
+
+function resizeFrame(obj){		
+		var heightSize, widthSize
+		var messages = [];
+			if(FrameDims.length < 2){
+				heightSize = parseInt(window.getComputedStyle(myFrame,null).getPropertyValue("height"));		
+				widthSize = parseInt(window.getComputedStyle(myFrame,null).getPropertyValue("width"));				
+			}
+			else{
+				heightSize = FrameDims[FrameDims.length-1].height;		
+				widthSize = FrameDims[FrameDims.length-1].width;				
+			}
+			
+		
+			//alert("myFrame[side]" + myFrame + ". ComputedStyle height width = " + heightSize + " : " + widthSize );
+			//FUNKAR INTE! myFrame.height = "" + Math.round(increment * parseInt(sideSize)) + "px";	 
+			
+
+			if( obj.hScale < 1 && (heightSize <= MinDim.height)){
+				heightSize = MinDim.height;
+				messages.push("minimum height reached");
+			}
+			if(obj.wScale < 1 && (widthSize <= MinDim.width) ){
+				widthSize = MinDim.width;	
+				messages.push("minimum width reached");
+			}				
+			
+			if(messages.length > 0){
+				alert(messages.join(". "));
+			}
+			else {
+			
+				/*var newDims = {
+					height: Math.round(obj.hScale * heightSize)
+					, width : Math.round(obj.wScale * widthSize) 
+				}*/
+				
+				var newDims = {
+					height: obj.height,
+					width: obj.width
+				}
+				
+				myFrame.style.height = newDims.height + "px" ;
+				myFrame.style.width =  newDims.width + "px";
+				FrameDims.push(newDims);
+			} 
+	
+}
+function loadFrame(frame){
+	console.log("frame loading" + frame);
+}
+
+</script>
+
+</head>
+
+<body>
+Drag and resize the area below
+<div class="demo">
+<div class="myFrameContainer">
+<iframe height="400" width="400" class="myFrame" onload="loadFrame(this)" frameborder="0" scrolling="no" id="myFrame" src="https://minmammaanita.se/kopenskyddsangel/index.ehtml"></iframe>
+</div>
+
+</div>
+</div>
+
+<br/>
+<br/>
+<button onclick="javascript:resizeFrame({hScale : 1.1 , wScale: 1});">Öka höjd</button>
+<button onclick="javascript:resizeFrame({hScale : 0.9 , wScale: 1});">Minska höjd</button>
+
+
+
+</body>
+<script>$(function(){
+$('.demo').draggable().resizable();
+});
+
+$( ".demo" ).on( "resizestart", function( event, ui ) {
+console.log("resize start !!!")
+
+} );
+
+$( ".demo" ).on( "resizestop", function( event, ui ) {
+	
+	resizeFrame({height: (ui.size.height + 2), width: ui.size.width+1});
+} );
+
+
+</script>
+</html>
