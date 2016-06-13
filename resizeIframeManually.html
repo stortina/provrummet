@@ -111,18 +111,41 @@ Drag and resize the area below
 
 <br/>
 <br/>
-<button onclick="javascript:resizeFrame({hScale : 1.1 , wScale: 1});">Öka höjd</button>
-<button onclick="javascript:resizeFrame({hScale : 0.9 , wScale: 1});">Minska höjd</button>
+<button onclick="javascript:resizeFrame({hScale : 1.1 , wScale: 1});">Ã–ka hÃ¶jd</button>
+<button onclick="javascript:resizeFrame({hScale : 0.9 , wScale: 1});">Minska hÃ¶jd</button>
 
 
 
 </body>
-<script>$(function(){
+<script>
+var MyUtil = {};
+MyUtil.rzCounter = (function(){
+	var i = 0;
+	return (function (){
+			return i++;
+	});
+});
+
+$(function(){
+
+var rzCount;
+
 $('.demo').draggable().resizable();
+	
 });
 
 $( ".demo" ).on( "resizestart", function( event, ui ) {
-console.log("resize start !!!")
+	console.log("resize start !!!")
+	rzCount = new MyUtil.rzCounter();
+
+} );
+
+$( ".demo" ).on( "resize", function( event, ui ) {
+
+	if( rzCount() % 5 == 0){
+		//console.log("coutner = %d, resizing: ui.size.height %d, width: ui.size.width %d", rzCount(), ui.size.height, ui.size.width)
+		resizeFrame({height: (ui.size.height + 2), width: ui.size.width+1});
+	}
 
 } );
 
