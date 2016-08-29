@@ -1,5 +1,8 @@
+<!DOCTYPE html>
 <html>
+
 <head>
+<meta HTTP-EQUIV="content-type" CONTENT="text/html; charset=UTF-8" />
 <title></title>
 
 <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
@@ -10,7 +13,9 @@
 <style>
 body,input{
 font-family:Calibri,Arial;
-margin:0px}
+margin:0px
+background: &#x2196;
+}
 
 .demo{
 width:400px;
@@ -18,6 +23,48 @@ height:400px;
 padding:2px;
 background-color:#f81;
 }
+
+/*
+#handle {
+    width: 100%;
+    height: 16px;
+    background-color: rgba(0,155,200, 0.75);
+}
+*/
+
+.demo .ui-resizable-se {
+  background-color: gold;
+  width:20px;
+  height: 20px;   
+  border: 2px solid orange;
+  border-bottom-width: 0;
+  border-right-width: 0;
+}
+.ui-dialog, .ui-resizable-se{
+    background-image: none;
+}
+
+.demo .ui-resizable-se:after {
+  content: "Hello";  
+}
+.demo .ui-dialog:after {
+  content: "Hello";  
+}
+
+/*ui-resizable-handle 
+ui-resizable-se 
+.ui-icon-gripsmall-diagonal-se
+ http://stackoverflow.com/questions/10801676/removing-handle-image-from-jquery-ui-resizable-element 
+
+ .demo .ui-resizable-se::before {
+    content: "&#8645;";
+}
+ */
+
+
+
+
+
 </style>
 
 
@@ -26,6 +73,7 @@ var myFrame;
 var FrameDims = [];
 var MinDim = { height : 50, width : 100}
 var MaxDim = { height : 2000, width : 2000}
+var sources = ['https://minmammaanita.se/kopenskyddsangel/index.ehtml'];
 
 $(document).ready(function(){
 	console.log("dom loaded");
@@ -102,18 +150,16 @@ function loadFrame(frame){
 <body>
 Drag and resize the area below
 <div class="demo">
-<div class="myFrameContainer">
-<iframe height="400" width="400" class="myFrame" onload="loadFrame(this)" frameborder="0" scrolling="no" id="myFrame" src="https://minmammaanita.se/kopenskyddsangel/index.ehtml"></iframe>
+	<div class="myFrameContainer">
+	<iframe height="400" width="400" class="myFrame" onload="loadFrame(this)" frameborder="0" scrolling="no" id="myFrame" src="http://www.akustik.nu/"></iframe>
+	</div>
+<!--<div id='handle' class="ui-resizable-handle ui-resizable-s" style="font-size:1em;text-align:center;">&#8645</div> -->
 </div>
 
-</div>
-</div>
-
-<br/>
-<br/>
+<!--
 <button onclick="javascript:resizeFrame({hScale : 1.1 , wScale: 1});">Öka höjd</button>
 <button onclick="javascript:resizeFrame({hScale : 0.9 , wScale: 1});">Minska höjd</button>
-
+-->
 
 
 </body>
@@ -130,8 +176,8 @@ $(function(){
 
 var rzCount;
 
-$('.demo').draggable().resizable();
-	
+$('.demo').draggable().resizable(); //http://jsfiddle.net/89v9U/1/
+//$('.demo').draggable().resizable({handles: {'s': '#handle'}}) //http://jsfiddle.net/89v9U/3/
 });
 
 $( ".demo" ).on( "resizestart", function( event, ui ) {
@@ -156,4 +202,17 @@ $( ".demo" ).on( "resizestop", function( event, ui ) {
 
 
 </script>
+<!-- 
+<div class="demo ui-draggable ui-resizable" style="position: absolute; top: 19px; left: 0px; width: 1257px; height: 505px;">
+	<div class="myFrameContainer">
+	<iframe height="400" width="400" class="myFrame" onload="loadFrame(this)" frameborder="0" scrolling="no" id="myFrame" src="http://www.akustik.nu/" style="height: 506px; width: 1258px;"></iframe>
+	</div>
+
+<div class="ui-resizable-handle ui-resizable-e" style="z-index: 1000;"></div>
+<div class="ui-resizable-handle ui-resizable-s" style="z-index: 1000;"></div>
+<div class="ui-resizable-handle ui-resizable-se ui-icon ui-icon-gripsmall-diagonal-se" style="z-index: 1000;"></div>
+</div>
+
+ -->
+
 </html>
